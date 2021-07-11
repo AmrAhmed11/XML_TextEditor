@@ -12,21 +12,23 @@ void stringManipulate(string input, vector<string> &tag, vector<string> &tagend,
             if (input[index+1]!='/'){
                 for (int i=index;i<index+20;i++){
                     if (isspace(input[i])||input[i]=='>'){
+                        i = i - index;
                         string sub = input.substr(index+1, i); 
                         //function to create node with sub value and send(line,index)
                         cout << sub <<" "<<index+1<<'\n';
                         tag.push_back(sub);
-                        index=i;
+                        index+=i;
                         break;
                     }
                 }
                 if (input[index]==' '){
                     for (int i=index;i<index+300;i++){
                        if (input[i]=='>'){
+                            i = i - index;
                             string sub = input.substr(index+1, i); 
                             //function to set attr with sub value
                             attr.push_back(sub);
-                            index=i;
+                            index +=i;
                             break;
                         }
                     }
@@ -35,10 +37,11 @@ void stringManipulate(string input, vector<string> &tag, vector<string> &tagend,
             else if (input[index+1]!='/'){
                 for (int i=index;i<index+20;i++){
                     if (input[i]=='>'){
+                        i = i - index;
                         string sub = input.substr(index+2, i); 
                         //function to finish node with sub value
                         tagend.push_back(sub);
-                        index=i-1;
+                        index +=(i-1);
                         break;
                     }
                 }
@@ -49,10 +52,11 @@ void stringManipulate(string input, vector<string> &tag, vector<string> &tagend,
         else{
             for (int i=index;i<index+2200;i++){
                 if (input[i]=='<'){
+                    i = i - index;
                     string sub = input.substr(index, i); 
                     //function to set data with sub value
                     data.push_back(sub);
-                    index=i-1;
+                    index +=(i-1);
                     break;
                 }
             }
