@@ -10,18 +10,18 @@ private:
     vector<Node*> children;
     Node* parent ;
     int position;   
-    string attributes;
+    vector<string> attributes;
     string data;
 
 public:
     Node(string v);
     void setParent(Node* p);
-    void setAttributes(string a);
+    void setAttributes(vector<string> a);
     void setData(string d);
     string getData();
-    void insertChild(string p);
+    Node* insertChild(string p);
     ~Node();
-    
+
 };
 
 class Tree
@@ -49,7 +49,6 @@ Node::Node(string v)
     value = v;
     parent  = NULL;
     position = 0;
-    attributes = "";
 }
 
 Node::~Node()
@@ -60,7 +59,7 @@ void Node::setParent(Node* p){
     parent = p;
 }
 
-void Node::setAttributes(string a){
+void Node::setAttributes(vector<string> a){
     attributes = a;
 }
 
@@ -68,10 +67,11 @@ void Node::setData(string d){
     data = d;
 }
 
-void Node::insertChild(string p){
+Node* Node::insertChild(string p){
     Node* n = new Node(p);
     n->setParent(this);
     children.push_back(n);
+    return n;
 }
 
 string Node::getData(){
