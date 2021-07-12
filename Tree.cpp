@@ -9,13 +9,8 @@ private:
     string value;
     vector<Node*> children;
     Node* parent ;
-<<<<<<< Updated upstream
     int position;   
     vector<string> attributes;
-=======
-    int position;
-    string attributes;
->>>>>>> Stashed changes
     string data;
 
 public:
@@ -24,14 +19,10 @@ public:
     void setAttributes(vector<string> a);
     void setData(string d);
     string getData();
-<<<<<<< Updated upstream
-    Node* insertChild(string p);
-=======
     string getValue();
     int getPosition();
     Node* getParent();
-    void insertChild(string p);
->>>>>>> Stashed changes
+    Node* insertChild(string p);
     ~Node();
 
 };
