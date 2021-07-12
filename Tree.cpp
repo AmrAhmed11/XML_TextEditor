@@ -92,3 +92,8 @@ string Node::getValue() {
 int Node::getPosition(){
     return position;
 }
+
+struct Error {
+    int position;
+    int type;
+};
