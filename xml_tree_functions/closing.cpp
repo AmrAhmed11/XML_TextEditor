@@ -3,14 +3,21 @@
 int closing(string s) {
     if (s == currentNode.getValue()) {
         currentNode = *currentNode.getParent();
-        return 0;
+        Error e;
+        e.type = 0;
+        return e;
     }
     else if (s == currentNode.getParent()->getValue()) {
-        int returnValue = currentNode.getPosition();
+        Error e;
+        e.openPosition = currentNode.getPosition();
+        e.type = 1;
         currentNode = *currentNode.getParent()->getParent();
-        return returnValue;
+        return e;
     }
     else {
-        return currentNode.getPosition();
+        Error e;
+        e.openPosition = currentNode.getPosition();
+        e.type = 2;
+        return e;
     }
 }

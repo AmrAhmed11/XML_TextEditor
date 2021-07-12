@@ -94,6 +94,7 @@ int Node::getPosition(){
 }
 
 struct Error {
-    int position;
+    int openPosition;
+    int closePosition;
     int type;
 };
