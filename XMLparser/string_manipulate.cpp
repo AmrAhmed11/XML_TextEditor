@@ -76,7 +76,7 @@ void stringManipulate(string input, vector<string> &tag, vector<string> &tagend,
                 }
             }
         }
-        else if (input[index]=='\n'){continue;}
+        else if (input[index]=='\n'||isspace(input[index])){continue;}
         else{
             for (int i=index;i<index+2200;i++){
                 if (input[i]=='<'){
