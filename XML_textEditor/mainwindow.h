@@ -38,6 +38,8 @@ private slots:
 
     void on_Decompressbtn_clicked();
 
+    void on_SaveAsbtn_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

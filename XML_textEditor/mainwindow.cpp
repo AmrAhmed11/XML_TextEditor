@@ -10,7 +10,7 @@
 bool flag =0;
 Node* currentNode;
 QString openFile = "-1";
-QString hashFile;
+string functionUsed;
 Tree tree;
 //BasicXMLSyntaxHighlighter* highlighter;
 
@@ -24,11 +24,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->save->hide();
     ui->Convertbtn->hide();
     ui->Compressbtn->hide();
-    ui->Correctbtn->hide();
+    ui->SaveAsbtn->hide();
     ui->Prettifybtn->hide();
     ui->minifybtn->hide();
     ui->Compressbtn->hide();
-    ui->Decompressbtn->hide();
 }
 
 MainWindow::~MainWindow()
@@ -51,8 +50,10 @@ void MainWindow::on_openbtn_clicked()
         QTextStream out(&file);
         QString text = out.readAll();
         stringManipulate(text.toStdString());
-        ui->plainTextEdit->setPlainText(text);
+        //ui->plainTextEdit->setPlainText(text);
+        ui->textBrowser->setText(text);
         ui->save->show();
+        ui->SaveAsbtn->show();
         ui->minifybtn->show();
         ui->Prettifybtn->show();
         ui->minifybtn->show();
@@ -120,30 +121,20 @@ void MainWindow::on_save_clicked()
 void MainWindow::on_minifybtn_clicked()
 {
     QString str = QString::fromStdString(tree.minify());
-    QFile file("C:/Users/Amr/Desktop/ASU 1/min.txt");
-    if(!file.open(QFile::ReadWrite | QFile::Text)){
-        QMessageBox::warning(this,"title","file not open");
-    }
-    QTextStream out(&file);
     ui->plainTextEdit->setPlainText(str);
-    out<<str;
-    file.flush();
-    file.close();
+    functionUsed = "/minifiedVersion.xml";
+    ui->minifybtn->setDisabled(1);
+    ui->Prettifybtn->setEnabled(1);
 }
 
 
 void MainWindow::on_Prettifybtn_clicked()
 {
     QString str = QString::fromStdString(tree.prettify());
-    QFile file("C:/Users/Amr/Desktop/ASU 1/prt.txt");
-    if(!file.open(QFile::ReadWrite | QFile::Text)){
-        QMessageBox::warning(this,"title","file not open");
-    }
-    QTextStream out(&file);
     ui->plainTextEdit->setPlainText(str);
-    out<<str;
-    file.flush();
-    file.close();
+    ui->Prettifybtn->setDisabled(1);
+    ui->minifybtn->setEnabled(1);
+    functionUsed = "/prettifiedVersion.xml";
 }
 
 
@@ -161,33 +152,50 @@ void MainWindow::on_Compressbtn_clicked()
     for(int i=0;i<hash.size();i++){
         str += QString::number(hash[i]) + " ";
     }
-
-    QFile f("C:/Users/Amr/Desktop/ASU 1/hashed.txt");
-    hashFile ="C:/Users/Amr/Desktop/ASU 1/hashed.txt";
+    string location = QFileDialog::getExistingDirectory(this,"Save As","C://").toStdString();
+    location+="/compressed";
+    QFile f(QString::fromStdString(location));
     if(!f.open(QFile::ReadWrite | QFile::Text)){
         QMessageBox::warning(this,"title","file not open");
     }
     QTextStream out(&f);
-    ui->plainTextEdit->setPlainText(str);
     out<<str;
     f.flush();
     f.close();
-    ui->Decompressbtn->show();
-
 }
 
 
 void MainWindow::on_Decompressbtn_clicked()
 {
-    QFile file("C:/Users/Amr/Desktop/ASU 1/dehashed.txt");
-    if(!file.open(QFile::ReadWrite | QFile::Text)){
+    string fileToDecompress =QFileDialog::getOpenFileName(this,"Open file to decompress","C://").toStdString();
+    string str = decompress(fileToDecompress);
+    string locationToSaveFile = QFileDialog::getExistingDirectory(this,"Select save location","C://").toStdString();
+    locationToSaveFile+="/DecompressedVersion.xml";
+    QFile f(QString::fromStdString(locationToSaveFile));
+    if(!f.open(QFile::ReadWrite | QFile::Text)){
         QMessageBox::warning(this,"title","file not open");
     }
-    string str = decompress(hashFile.toStdString());
-    QTextStream out(&file);
-    ui->plainTextEdit->setPlainText(QString::fromStdString(str));
+    QTextStream out(&f);
     out<<QString::fromStdString(str);
-    file.flush();
-    file.close();
+    f.flush();
+    f.close();
+    ui->plainTextEdit->setPlainText(QString::fromStdString(str));
 }
+
+
+void MainWindow::on_SaveAsbtn_clicked()
+{
+        string location = QFileDialog::getExistingDirectory(this,"Save As","C://").toStdString();
+        location +=functionUsed;
+        QFile file(QString::fromStdString(location));
+        if(!file.open(QFile::ReadWrite | QFile::Text)){
+            QMessageBox::warning(this,"title","file not open");
+        }
+        QTextStream out(&file);
+        out<<ui->plainTextEdit->toPlainText();
+        file.flush();
+        file.close();
+}
+
+
 

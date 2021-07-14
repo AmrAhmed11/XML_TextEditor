@@ -1,7 +1,7 @@
 #include "types.h"
 
-string strmin;
-string strprt;
+string strmin = "";
+string strprt = "";
 
 using namespace std;
 
@@ -135,6 +135,9 @@ void Tree::minifyNode(Node* r) {
 }
 
 void Tree::prettifyNode(Node* r, int h) {
+    if(h==-1){
+        strprt ="";
+    }
     if (r->getType() == 0) { //normal open-close tags
         for (int i = 0; i < h; i++) {
             strprt+="    ";

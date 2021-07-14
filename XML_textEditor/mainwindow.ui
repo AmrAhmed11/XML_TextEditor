@@ -18,38 +18,10 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="5" column="0">
-     <widget class="QPushButton" name="Compressbtn">
-      <property name="text">
-       <string>Compress</string>
-      </property>
-     </widget>
-    </item>
     <item row="7" column="0">
-     <widget class="QPushButton" name="Correctbtn">
+     <widget class="QPushButton" name="Decompressbtn">
       <property name="text">
-       <string>Correct</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QPushButton" name="Convertbtn">
-      <property name="text">
-       <string>Convert to JSON</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QPushButton" name="minifybtn">
-      <property name="text">
-       <string>Minify</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="openbtn">
-      <property name="text">
-       <string>Open Existing File</string>
+       <string>Decompress</string>
       </property>
      </widget>
     </item>
@@ -60,10 +32,21 @@
       </property>
      </widget>
     </item>
-    <item row="10" column="0">
-     <widget class="QPlainTextEdit" name="plainTextEdit"/>
-    </item>
     <item row="3" column="0">
+     <widget class="QPushButton" name="minifybtn">
+      <property name="text">
+       <string>Minify</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QPushButton" name="Convertbtn">
+      <property name="text">
+       <string>Convert to JSON</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
      <widget class="QPushButton" name="Prettifybtn">
       <property name="text">
        <string>Prettify</string>
@@ -71,11 +54,50 @@
      </widget>
     </item>
     <item row="6" column="0">
-     <widget class="QPushButton" name="Decompressbtn">
+     <widget class="QPushButton" name="Compressbtn">
       <property name="text">
-       <string>Decompress</string>
+       <string>Compress</string>
       </property>
      </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QPushButton" name="SaveAsbtn">
+      <property name="text">
+       <string>Save As</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QPushButton" name="openbtn">
+      <property name="styleSheet">
+       <string notr="true">.openbtn {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}</string>
+      </property>
+      <property name="text">
+       <string>Open Existing File</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0">
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="mouseTracking">
+       <bool>true</bool>
+      </property>
+      <property name="backgroundVisible">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="0">
+     <widget class="QTextBrowser" name="textBrowser"/>
     </item>
    </layout>
   </widget>
