@@ -196,11 +196,13 @@ void Tree::prettifyNode(Node* r, int h) {
 }
 
 string Tree::prettify(){
+    strprt = "";
     prettifyNode(root,-1);
     return strprt;
 }
 
 string Tree::minify(){
+    strmin ="";
     minifyNode(root);
     return strmin;
 }

@@ -40,6 +40,10 @@ private slots:
 
     void on_SaveAsbtn_clicked();
 
+//    void on_Nextbtn_clicked();
+
+//    void on_Previousbtn_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
