@@ -27,6 +27,8 @@ private:
     int type;   //0 open close
                 //1 self close
                 //2 comment
+                //3
+                //4 xml tag
 
 public:
     Node(string v);
@@ -36,12 +38,13 @@ public:
     string getData();
     string getValue();
     int getPosition();
+    int getType();
     Node* getParent();
+    string getAttributes();
     vector<Node*> getChildren();
     void setType(int t);
     Node* insertChild(string p);
     ~Node();
-
 };
 
 class Tree
@@ -51,6 +54,9 @@ private:
 public:
     Tree(Node* r);
     void print(Node* r);
+    void minify(Node* r);
+    void prettify(Node* r, int h);
+    void jsonify(Node* r);
     ~Tree();
 };
 
