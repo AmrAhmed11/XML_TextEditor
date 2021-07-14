@@ -1,7 +1,7 @@
 #ifndef OPENING_H
 #define OPENING_H
 
-#include "types.h"
+#include "../types.h"
 
 extern Node* currentNode;
 

@@ -9,12 +9,25 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    ../Tree.cpp \
+    ../XMLparser/string_manipulate.cpp \
+    ../compression.cpp \
+    ../xml_tree_functions/closing.cpp \
+    ../xml_tree_functions/opening.cpp \
+    BasicXMLSyntaxHighlighter.cpp \
     main.cpp \
     mainwindow.cpp
+    BasicXMLSyntaxHighlighter.cpp
 
 HEADERS += \
+    ../XMLparser/string_manipulate.h \
+    ../compression.h \
+    ../types.h \
+    ../xml_tree_functions/closing.h \
+    ../xml_tree_functions/opening.h \
+    BasicXMLSyntaxHighlighter.h \
     mainwindow.h
-
+    BasicXMLSyntaxHighlighter.h
 FORMS += \
     mainwindow.ui
 

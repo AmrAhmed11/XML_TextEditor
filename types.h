@@ -2,6 +2,7 @@
 #define TREE_CPP
 
 #include <vector>
+#include <QString>
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -53,9 +54,13 @@ private:
     Node* root;
 public:
     Tree(Node* r);
+    Tree();
+    void setRoot(Node* r);
     void print(Node* r);
-    void minify(Node* r);
-    void prettify(Node* r, int h);
+    void minifyNode(Node* r);
+    void prettifyNode(Node* r, int h);
+    string prettify();
+    string minify();
     void jsonify(Node* r);
     ~Tree();
 };

@@ -2,9 +2,9 @@
 #define STRING_MANIPULATE_CPP
 
 #include<algorithm>
-#include "types.h"
-#include "opening.h"
-#include "closing.h"
+#include "../types.h"
+#include "../xml_tree_functions/opening.h"
+#include "../xml_tree_functions/closing.h"
 
 using namespace std;
 

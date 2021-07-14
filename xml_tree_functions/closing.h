@@ -1,7 +1,7 @@
 #ifndef CLOSING_H
 #define	CLOSING_H
 
-#include "types.h"
+#include "../types.h"
 
 extern Node* currentNode;
 

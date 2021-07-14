@@ -1,4 +1,4 @@
-#include "types.h"
+#include "compression.h"
 using namespace std;
 vector <int> compress(string content){
     string previous,current;

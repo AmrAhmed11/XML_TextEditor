@@ -45,13 +45,14 @@ std::string trim(const std::string& s) {
 
 void stringManipulate(string input) {
     int index = 0;
+    int i;
     int len = input.length();
-    int line = 0;
     string tagstr, tagendstr, datastr, attrstr;
     for (index = 0; index < len; index++) {
         if (input[index] == '<') {
             if (input[index + 1] != '/' && input[index + 1] != '!' && input[index + 1] != '?') {
-                for (int i = index; i < index + 20; i++) {
+                i=index;
+                while(1){
                     if (isspace(input[i]) || input[i] == '>') {
                         i = i - index - 1;
                         tagstr = input.substr(index + 1, i);
@@ -60,10 +61,12 @@ void stringManipulate(string input) {
                         index += i + 1;
                         break;
                     }
+                    i++;
                 }
                 //attributes and self closing tag
                 if (input[index] == ' ') {
-                    for (int i = index; i < index + 300; i++) {
+                    i =index;
+                    while(1){
                         if (input[i] == '>') {
                             int selfclosing= i - 1;
                             i = i - index - 1;
@@ -82,21 +85,24 @@ void stringManipulate(string input) {
                             index += i + 1;
                             break;
                         }
+                        i++;
                     }
                 }
             }
             // closing tag 
             else if (input[index + 1] == '/') {
-                for (int i = index; i < index + 20; i++) {
+                i=index;
+                while(1){
                     if (input[i] == '>') {
                         i = i - index - 1;
                         tagendstr = input.substr(index + 2, i - 1);
                         tagendstr = trim(tagendstr);
                         //function to finish node with sub value
                         closing(tagendstr);
-                        index += (i + 2);
+                        index += (i + 1);
                         break;
                     }
+                    i++;
                 }
             }
             //comments tag
@@ -117,7 +123,8 @@ void stringManipulate(string input) {
             }
             //XML tag 
             else if (input[index + 1] == '?') {
-                for (int i = index; i < index + 20; i++) {
+                i=index;
+                while(1){
                     if (isspace(input[i]) || input[i] == '>') {
                         i = i - index - 1;
                         tagstr = input.substr(index + 1, i);
@@ -126,9 +133,11 @@ void stringManipulate(string input) {
                         index += i + 1;
                         break;
                     }
+                    i++;
                 }
                 if (input[index] == ' ') {
-                    for (int i = index; i < index + 300; i++) {
+                    i = index;
+                    while(1){
                         if (input[i] == '>') {
                             i = i - index - 1;
                             attrstr = input.substr(index + 1, i);
@@ -140,13 +149,15 @@ void stringManipulate(string input) {
                             index += i + 1;
                             break;
                         }
+                        i++;
                     }
                 }
             }
         }
         else if (input[index] == '\n' || isspace(input[index])) { continue; }
         else {
-            for (int i = index; i < index + 2200; i++) {
+            i=index;
+            while(1){
                 if (input[i] == '<') {
                     i = i - index - 1;
                     datastr = input.substr(index, i + 1);
@@ -155,6 +166,7 @@ void stringManipulate(string input) {
                     index += i;
                     break;
                 }
+                i++;
             }
         }
     }

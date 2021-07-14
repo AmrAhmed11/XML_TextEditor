@@ -1,5 +1,8 @@
 #include "types.h"
 
+string strmin;
+string strprt;
+
 using namespace std;
 
 Tree::Tree(Node* r)
@@ -7,11 +10,17 @@ Tree::Tree(Node* r)
     root = r;
 }
 
+Tree::Tree(){
+    root=NULL;
+}
+
 Tree::~Tree()
 {
 }
 
-
+void Tree::setRoot(Node* r){
+    root = r;
+}
 
 Node::Node(string v)
 {
@@ -84,104 +93,113 @@ void Tree::print(Node* r) {
     cout << "Value = " << r->getValue() << " & " << "Data = " << r->getData() << " & " << "attr = " << r->getAttributes() << endl;
 }
 
-void Tree::minify(Node* r) {
+void Tree::minifyNode(Node* r) {
     if (r->getType() == 0) { //normal open-close tags
-        cout << "<" << r->getValue();
+
+        strmin += "<" + r->getValue();
+
         if (!r->getAttributes().empty()) {
-            cout << " " << r->getAttributes();
+            strmin += " " + r->getAttributes();
         }
-        cout << ">";
-        cout << r->getData();
+        strmin+=">"+r->getData();
         for (int i = 0; i < r->getChildren().size(); i++) {
-            minify(r->getChildren()[i]);
+            minifyNode(r->getChildren()[i]);
         }
-        cout << "</" << r->getValue() << ">";
+        strmin+="</"+r->getValue()+">";
     }
     else if (r->getType() == 1) {  //self-closing tags
         //  <frame f_num="2"/>
-
-        cout << "<" << r->getValue();
+        strmin+="<"+r->getValue();
         if (!r->getAttributes().empty()) {
-            cout << " " << r->getAttributes();
+            strmin+=" "+r->getAttributes();
         }
-        cout << ">";
+        strmin+=">";
     }
     else if (r->getType() == 2) {
         //<!--A random selection of elements from data.xml
         //    Some IDREFS(refs attribute of element pointer) do not have a corresponding id in this sample-->
-        cout << "<" << r->getAttributes() << ">";
+        strmin+="<"+r->getAttributes()+">";
     }
     else if (r->getType() == 3) {
         for (int i = 0; i < r->getChildren().size(); i++) {
-            minify(r->getChildren()[i]);
+            minifyNode(r->getChildren()[i]);
         }
     }
     else if (r->getType() == 4) {
-        cout << "<" << r->getValue();
+        strmin+="<"+r->getValue();
         if (!r->getAttributes().empty()) {
-            cout << " " << r->getAttributes();
+            strmin+=" "+r->getAttributes();
         }
-        cout << ">";
+        strmin+=">";
     }
 }
 
-void Tree::prettify(Node* r, int h) {
+void Tree::prettifyNode(Node* r, int h) {
     if (r->getType() == 0) { //normal open-close tags
         for (int i = 0; i < h; i++) {
-            cout << "\t";
+            strprt+="    ";
         }
-
-        cout << "<" << r->getValue();
+        strprt +="<"+r->getValue();
         if (!r->getAttributes().empty()) {
-            cout << " " << r->getAttributes();
+            strprt+=" "+r->getAttributes();
         }
-        cout << ">\n";
+        strprt+=">\n";
         if (r->getData() != "") {
             for (int i = 0; i < h + 1; i++) {
-                cout << "\t";
+                strprt+="    ";
             }
-            cout << r->getData() << "\n";
+            strprt+=r->getData()+"\n";
         }
         for (int i = 0; i < r->getChildren().size(); i++) {
-            prettify(r->getChildren()[i], h + 1);
+            prettifyNode(r->getChildren()[i], h + 1);
         }
 
         for (int i = 0; i < h; i++) {
-            cout << "\t";
+            strprt+="    ";
         }
-        cout << "</" << r->getValue() << ">\n";
+        strprt += "</"+r->getValue()+">\n";
     }
     else if (r->getType() == 1) {  //self-closing tags
         //  <frame f_num="2"/>
         for (int i = 0; i < h; i++) {
-            cout << "\t";
+            strprt+="    ";
         }
-        cout << "<" << r->getValue();
+        strprt+="<"+r->getValue();
         if (!r->getAttributes().empty()) {
-            cout << " " << r->getAttributes();
+            strprt+=" "+r->getAttributes();
         }
-        cout << ">\n";
+        strprt+=">\n";
     }
     else if (r->getType() == 2) {
         //<!--A random selection of elements from data.xml
         //    Some IDREFS(refs attribute of element pointer) do not have a corresponding id in this sample-->
         for (int i = 0; i < h; i++) {
-            cout << "\t";
+            strprt+="    ";
         }
-        cout << "<" << r->getAttributes() << ">\n";
+        strprt += "<"+r->getAttributes()+">\n";
     }
     else if (r->getType() == 3) {
         for (int i = 0; i < r->getChildren().size(); i++) {
-            prettify(r->getChildren()[i], h + 1);
+            prettifyNode(r->getChildren()[i], h + 1);
         }
     }
     else if (r->getType() == 4) {
-        cout << "<" << r->getValue();
+        strprt+="<"+r->getValue();
         if (!r->getAttributes().empty()) {
-            cout << " " << r->getAttributes();
+            strprt+=" "+r->getAttributes();
         }
-        cout << ">\n";
+        strprt+=">\n";
     }
+}
+
+string Tree::prettify(){
+    prettifyNode(root,-1);
+    return strprt;
+}
+
+string Tree::minify(){
+    minifyNode(root);
+    return strmin;
 }
 
 void Tree::jsonify(Node* r) {
