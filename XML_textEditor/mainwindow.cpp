@@ -228,6 +228,7 @@ void MainWindow::on_actionDecompress_triggered()
 void MainWindow::Display(QString str){
     pages.clear();
     if(str.size()<100000){
+        bigFile = str.toStdString();
         ui->textEdit->setText(str);
         ui->Previousbtn->setDisabled(1);
         ui->Nextbtn->setDisabled(1);
@@ -238,6 +239,7 @@ void MainWindow::Display(QString str){
         currentPage=0;
         pages.push_back(0);
         ui->Previousbtn->setDisabled(1);
+        ui->Nextbtn->setEnabled(1);
         for(int i=100000;i<bigFile.size();i++){
             if(i == bigFile.size()-1){
                 pages.push_back(bigFile.size());
@@ -304,5 +306,22 @@ void MainWindow::on_Correctionbtn_clicked()
     ui->Prettifybtn->show();
     ui->minifybtn->show();
     ui->Convertbtn->show();
+}
+
+
+void MainWindow::on_Convertbtn_clicked()
+{
+    QString str = QString::fromStdString(tree.jsonify());
+    string locationToSaveFile = QFileDialog::getExistingDirectory(this,"Select save location","C://").toStdString();
+    locationToSaveFile+="/JSONVersion.json";
+    QFile f(QString::fromStdString(locationToSaveFile));
+    if(!f.open(QFile::ReadWrite | QFile::Text)){
+        QMessageBox::warning(this,"title","file not open");
+    }
+    QTextStream out(&f);
+    out<<str;
+    f.flush();
+    f.close();
+
 }
 

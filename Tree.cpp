@@ -1,4 +1,5 @@
 #include "types.h"
+#include "xml_tree_functions/Trim.h"
 
 string strmin = "";
 string strprt = "";
@@ -235,7 +236,8 @@ vector<vector<string>> extractAttributes(string attrstr) {
     }
     return outVector;
 }
-void jsonify(); {
+
+void Tree::jsonifyNode(Node* r, int h) {
     vector<vector<string>> attributesVector = extractAttributes(r->getAttributes());
     if (r->getType() == 3) {
         for (int i = 0; i < r->getChildren().size(); i++) {
@@ -328,7 +330,7 @@ void jsonify(); {
         }
 
     }
- 
+
 }
 
 

@@ -57,6 +57,8 @@ private slots:
 
     void on_Correctionbtn_clicked();
 
+    void on_Convertbtn_clicked();
+
 private:
     Ui::MainWindow *ui;
 };
