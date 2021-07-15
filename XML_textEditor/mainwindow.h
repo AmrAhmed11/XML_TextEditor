@@ -5,6 +5,7 @@
 #include "BasicXMLSyntaxHighlighter.h"
 #include "../XMLparser/string_manipulate.h"
 #include "../compression.h"
+#include "../xml_tree_functions/balanced.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

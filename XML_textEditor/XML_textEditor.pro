@@ -12,6 +12,7 @@ SOURCES += \
     ../Tree.cpp \
     ../XMLparser/string_manipulate.cpp \
     ../compression.cpp \
+    ../xml_tree_functions/balanced.cpp \
     ../xml_tree_functions/closing.cpp \
     ../xml_tree_functions/opening.cpp \
     BasicXMLSyntaxHighlighter.cpp \
@@ -23,6 +24,7 @@ HEADERS += \
     ../XMLparser/string_manipulate.h \
     ../compression.h \
     ../types.h \
+    ../xml_tree_functions/balanced.h \
     ../xml_tree_functions/closing.h \
     ../xml_tree_functions/opening.h \
     BasicXMLSyntaxHighlighter.h \

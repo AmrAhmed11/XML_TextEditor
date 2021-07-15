@@ -11,7 +11,7 @@
 bool flag =0;
 Node* currentNode;
 QString openFile = "-1";
-string functionUsed;
+string functionUsed = "-1";
 Tree tree;
 string bigFile;
 
@@ -62,15 +62,19 @@ void MainWindow::on_openbtn_clicked()
         QTextStream out(&file);
         QString text = out.readAll();
         vector<Error> e = stringManipulate(text.toStdString());
+        vector<Error> balance = balanced();
+        e.insert(e.end(),balance.begin(),balance.end());
         Display(alert(e,text));
         ui->save->show();
         ui->SaveAsbtn->show();
         if(e.size()>0){
+            ui->Convertbtn->hide();
             ui->Correctionbtn->show();
             ui->minifybtn->hide();
             ui->Prettifybtn->hide();
         }
         else{
+            ui->Convertbtn->show();
             ui->minifybtn->show();
             ui->Prettifybtn->show();
             ui->Correctionbtn->hide();
@@ -152,13 +156,16 @@ void MainWindow::on_Decompressbtn_clicked()
 void MainWindow::on_SaveAsbtn_clicked()
 {
         string location = QFileDialog::getExistingDirectory(this,"Save As","C://").toStdString();
+        if(functionUsed=="-1"){
+            functionUsed = "/SaveAs.xml";
+        }
         location +=functionUsed;
         QFile file(QString::fromStdString(location));
         if(!file.open(QFile::ReadWrite | QFile::Text)){
             QMessageBox::warning(this,"title","file not open");
         }
         QTextStream out(&file);
-        out<<ui->textEdit->toPlainText();
+        out<<QString::fromStdString(bigFile);
         file.flush();
         file.close();
 }
@@ -258,49 +265,33 @@ void MainWindow::Display(QString str){
 }
 
 QString MainWindow::alert(vector<Error> e,QString s){
-    qDebug()<<e.size();
-    int counter = 0;
-    int start = 0;
-    int end = 0;
-    string rtn="";
-    while(1){
-        if(e.size()==0){
-            return s;
-        }
-        if(counter>=e.size()-1){
-            if(e[e.size()-1].type==1){
-                end=e[e.size()-1].openPosition;
-                rtn+=s.toStdString().substr(start,end-start)+"!!";
-                rtn+=s.toStdString().substr(end,e.size()-end);
-                break;
-            }
-            else if(e[e.size()-1].type==2){
-                end=e[e.size()-1].openPosition;
-                rtn+=s.toStdString().substr(start,end-start)+"!!";
-                rtn+=s.toStdString().substr(end,e[e.size()-1].closePosition+2)+"!!";
-                rtn+=s.toStdString().substr(end+2,e.size()-end+2);
-                break;
-            }
-            else if(e[e.size()-1].type==3){
-                end = e[e.size()-1].closePosition;
-                rtn+=s.toStdString().substr(start,end-start+2)+"!!";
-                rtn+=s.toStdString().substr(end+2,e.size()-end+2);
-                break;
-            }
-        }
-        if(e[counter].type!=3){
-            end=e[counter].openPosition;
-            rtn += s.toStdString().substr(start,end-start)+"!!";
-            start = end;
-        }
-
-        if(e[counter].type==2 || e[counter].type==3){
-            end=e[counter].closePosition;
-            rtn += s.toStdString().substr(start,end-start+2)+"!!";
-            start = end+2;
-        }
-        counter++;
+    if(e.size()==0){
+        return s;
     }
+    string rtn = "";
+    int start=0;
+
+    vector<int> sortedPoints;
+    for(int i=0;i<e.size();i++){
+        if(e[i].type==1){
+            sortedPoints.push_back(e[i].openPosition);
+        }
+        else if(e[i].type==2){
+            sortedPoints.push_back(e[i].openPosition);
+            sortedPoints.push_back(e[i].closePosition+2);
+        }
+        else if(e[i].type ==3){
+            sortedPoints.push_back(e[i].closePosition+2);
+        }
+    }
+
+    sort(sortedPoints.begin(),sortedPoints.end());
+
+    for(int i=0;i<sortedPoints.size();i++){
+        rtn+= s.toStdString().substr(start,sortedPoints[i]-start)+"!!";
+        start = sortedPoints[i];
+    }
+    rtn+=s.toStdString().substr(start,s.size()-start);
     return QString::fromStdString(rtn);
 }
 
@@ -312,5 +303,6 @@ void MainWindow::on_Correctionbtn_clicked()
     ui->Correctionbtn->hide();
     ui->Prettifybtn->show();
     ui->minifybtn->show();
+    ui->Convertbtn->show();
 }
 

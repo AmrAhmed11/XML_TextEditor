@@ -117,9 +117,6 @@ void Tree::minifyNode(Node* r) {
         strmin+=">";
     }
     else if (r->getType() == 2) {
-        //<!--A random selection of elements from data.xml
-        //    Some IDREFS(refs attribute of element pointer) do not have a corresponding id in this sample-->
-        strmin+="<"+r->getAttributes()+">";
     }
     else if (r->getType() == 3) {
         for (int i = 0; i < r->getChildren().size(); i++) {

@@ -329,7 +329,7 @@ QPushButton:hover {
         <item>
          <widget class="QTextEdit" name="textEdit">
           <property name="styleSheet">
-           <string notr="true">QTextBrowser{
+           <string notr="true">QTextEdit{
 font-family: &quot;Times New Roman&quot;, Times, serif;
 font-size: 25px;
 }</string>
