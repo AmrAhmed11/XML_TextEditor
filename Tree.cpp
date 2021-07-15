@@ -2,6 +2,7 @@
 
 string strmin = "";
 string strprt = "";
+string json = "";
 
 using namespace std;
 
@@ -211,7 +212,133 @@ string Tree::minify(){
     return strmin;
 }
 
-void Tree::jsonify(Node* r) {
 
+vector<vector<string>> extractAttributes(string attrstr) {
+    vector<vector<string>> outVector(2);
 
+    int index = 0;
+    bool lock = false;
+
+    for (int i = 0; i < attrstr.length(); i++) {
+        if (attrstr[i] == '=') {
+            outVector[0].push_back(trim(attrstr.substr(index, i - index)));
+            index = i + 1;
+        }
+        else if (attrstr[i] == '"') {
+            if (!lock) {
+                lock = true;
+                index = i + 1;
+            }
+            else {
+                lock = false;
+                outVector[1].push_back(trim(attrstr.substr(index, i - index)));
+                index = i + 1;
+            }
+        }
+    }
+    return outVector;
 }
+void jsonify(); {
+    vector<vector<string>> attributesVector = extractAttributes(r->getAttributes());
+    if (r->getType() == 3) {
+        for (int i = 0; i < r->getChildren().size(); i++) {
+            jsonifyNode(r->getChildren()[i], h);
+        }
+    }
+    else if (r->getType() == 2|| r->getType() == 4) {
+        ;
+    }
+
+    else {
+        //print attributes
+        if (attributesVector[0].size() > 0) {
+
+            for (int i = 0; i < h + 2; i++) {
+                json += "    ";
+            }
+            json += "\"" + r->getValue() + "\":{\n";
+            for (int i = 0; i < attributesVector[0].size(); i++) {
+                for (int i = 0; i < h + 3; i++) {
+                    json += "    ";
+                }
+                json += "\"@" + attributesVector[0][i] + "\": \"" + attributesVector[1][i] + "\"";
+                if (i != attributesVector[0].size() - 1) {
+                    json += ",\n";
+                }
+                else if (i == attributesVector[0].size() - 1 && (!r->getData().empty() || r->getChildren().size() != 0)) {
+                    json += ",\n";
+                }
+                else {
+                    json += "\n";
+                }
+            }
+            if (!r->getData().empty()) {
+                for (int i = 0; i < h + 3; i++) {
+                    json += "    ";
+                }
+                json += "\"#text\": \"" + r->getData() + "\"";
+                if (r->getChildren().size() != 0) {
+                    json += ",";
+                }
+                json += "\n";
+            }
+            if (r->getChildren().size() != 0) {
+                for (int i = 0; i < r->getChildren().size(); i++) {
+                    jsonifyNode(r->getChildren()[i], h + 1);
+                    for (int j = 0; j < h + 3; j++) {
+                        json += "    ";
+                    }
+                    if ((r->getChildren()[i]->getAttributes().length() != 0 || r->getChildren()[i]->getChildren().size() != 0) && i != r->getChildren().size() - 1 && r->getChildren()[i]->getType() !=2)
+                    {
+                        json += "},";
+                    }
+                    else if (i == r->getChildren().size() - 1 && (r->getChildren()[i]->getChildren().size() > 0 || r->getChildren()[i]->getAttributes().length() > 0) && r->getChildren()[i]->getType() != 2) {
+                        json += "}";
+                    }
+                    json += "\n";
+                }
+            }
+
+        }
+        else {
+            if (!r->getData().empty()) {
+                for (int i = 0; i < h + 2; i++) {
+                    json += "    ";
+                }
+                json += "\"" + r->getValue() + "\":";
+                json += " \"" + r->getData() + "\",";
+            }
+            else if (r->getChildren().size() != 0) {
+                for (int i = 0; i < h + 2; i++) {
+                    json += "    ";
+                }
+                json += "\"" + r->getValue() + "\": {\n";
+                for (int i = 0; i < r->getChildren().size(); i++) {
+                    jsonifyNode(r->getChildren()[i], h + 1);
+                    for (int j = 0; j < h + 3; j++) {
+                        json += "    ";
+                    }
+                    if ((r->getChildren()[i]->getAttributes().length() != 0 || r->getChildren()[i]->getChildren().size() != 0) && i != (r->getChildren().size() - 1)) {
+                        json += "},";
+                    }
+                    else if (i == r->getChildren().size() - 1 && (r->getChildren()[i]->getChildren().size() > 0 || r->getChildren()[i]->getAttributes().length() > 0)) {
+                        json += "}";
+                    }
+                    json += "\n";
+                }
+
+            }
+        }
+
+    }
+ 
+}
+
+
+string Tree::jsonify() {
+    json = "";
+    jsonifyNode(root, -1);
+    json += "    }\n";
+    return json;
+}
+

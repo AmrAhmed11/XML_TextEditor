@@ -60,9 +60,10 @@ public:
     void print(Node* r);
     void minifyNode(Node* r);
     void prettifyNode(Node* r, int h);
+    void jsonifyNode(Node* r, int h);
     string prettify();
     string minify();
-    void jsonify(Node* r);
+    string jsonify();
     ~Tree();
 };
 
