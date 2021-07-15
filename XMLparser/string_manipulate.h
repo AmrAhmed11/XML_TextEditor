@@ -8,6 +8,6 @@
 
 using namespace std;
 
-void stringManipulate(string input);
+vector<Error> stringManipulate(string input);
 
 #endif

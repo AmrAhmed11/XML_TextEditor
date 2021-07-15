@@ -195,14 +195,18 @@ void Tree::prettifyNode(Node* r, int h) {
     }
 }
 
+void Node::setPostion(int p){
+    position = p;
+}
+
 string Tree::prettify(){
-    strprt = "";
+    strprt.clear();
     prettifyNode(root,-1);
     return strprt;
 }
 
 string Tree::minify(){
-    strmin ="";
+    strmin.clear();
     minifyNode(root);
     return strmin;
 }

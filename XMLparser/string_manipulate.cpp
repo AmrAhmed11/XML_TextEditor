@@ -43,7 +43,9 @@ std::string trim(const std::string& s) {
 }
 
 
-void stringManipulate(string input) {
+vector<Error> stringManipulate(string input) {
+    vector<Error> e;
+    Error rtn;
     int index = 0;
     int i;
     int len = input.length();
@@ -57,7 +59,11 @@ void stringManipulate(string input) {
                         i = i - index - 1;
                         tagstr = input.substr(index + 1, i);
                         tagstr = trim(tagstr);
-                        opening(tagstr, index + 1);
+                        rtn = opening(tagstr, index + 1);
+                        if(rtn.type != 0){
+                            rtn.closePosition = index;
+                            e.push_back(rtn);
+                        }
                         index += i + 1;
                         break;
                     }
@@ -77,7 +83,11 @@ void stringManipulate(string input) {
                             if (input[selfclosing] == '/')
                             {
                                 setAttribute(attrstr, 1);
-                                closing (tagstr);
+                                rtn = closing (tagstr);
+                                if(rtn.type != 0){
+                                    rtn.closePosition = index;
+                                    e.push_back(rtn);
+                                }
                                 index += i + 1;
                                 break;
                             }
@@ -98,7 +108,11 @@ void stringManipulate(string input) {
                         tagendstr = input.substr(index + 2, i - 1);
                         tagendstr = trim(tagendstr);
                         //function to finish node with sub value
-                        closing(tagendstr);
+                        rtn = closing(tagendstr);
+                        if(rtn.type != 0){
+                            rtn.closePosition = index;
+                            e.push_back(rtn);
+                        }
                         index += (i + 1);
                         break;
                     }
@@ -129,7 +143,11 @@ void stringManipulate(string input) {
                         i = i - index - 1;
                         tagstr = input.substr(index + 1, i);
                         tagstr = trim(tagstr);
-                        opening(tagstr, index + 1);
+                        rtn = opening(tagstr, index + 1);
+                        if(rtn.type != 0){
+                            rtn.closePosition = index;
+                            e.push_back(rtn);
+                        }
                         index += i + 1;
                         break;
                     }
@@ -145,7 +163,11 @@ void stringManipulate(string input) {
                             attrstr = trim_extra_mid_spaces(attrstr);
                             attrstr = trim(attrstr);
                             setAttribute(attrstr, 4);
-                            closing(tagstr);
+                            rtn = closing(tagstr);
+                            if(rtn.type != 0){
+                                rtn.closePosition = index;
+                                e.push_back(rtn);
+                            }
                             index += i + 1;
                             break;
                         }
@@ -170,4 +192,6 @@ void stringManipulate(string input) {
             }
         }
     }
+    //checkBalance();
+    return e;
 }

@@ -17,6 +17,7 @@ Error opening(string s , int index){
     //cout << currentNode->getData().empty() << endl;
     if(currentNode->getData().empty()){
             currentNode = currentNode->insertChild(s);
+            currentNode->setPostion(index);
             //cout << endl;
             //cout << currentNode->getValue() << endl;
             //cout << endl;

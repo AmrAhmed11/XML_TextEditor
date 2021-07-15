@@ -36,6 +36,7 @@ public:
     void setParent(Node* p);
     void setAttributes(string a);
     void setData(string d);
+    void setPostion(int p);
     string getData();
     string getValue();
     int getPosition();

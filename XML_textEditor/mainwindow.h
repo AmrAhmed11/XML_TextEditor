@@ -40,9 +40,21 @@ private slots:
 
     void on_SaveAsbtn_clicked();
 
-//    void on_Nextbtn_clicked();
+    void on_Nextbtn_clicked();
 
-//    void on_Previousbtn_clicked();
+    void on_Previousbtn_clicked();
+
+    void Display(QString str);
+
+    QString alert(vector<Error> e,QString s);
+
+    void on_actionSave_As_triggered();
+
+    void on_actionCompress_triggered();
+
+    void on_actionDecompress_triggered();
+
+    void on_Correctionbtn_clicked();
 
 private:
     Ui::MainWindow *ui;

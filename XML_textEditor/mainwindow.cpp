@@ -6,6 +6,7 @@
 #include <QMessageBox>
 #include <QDir>
 #include <QDebug>
+#include <QSyntaxHighlighter>
 
 bool flag =0;
 Node* currentNode;
@@ -18,14 +19,14 @@ int currentPage=0;
 int pagesNo;
 vector<int> pages;
 
-//BasicXMLSyntaxHighlighter* highlighter;
+BasicXMLSyntaxHighlighter* highlighter;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //highlighter = new BasicXMLSyntaxHighlighter(ui->textEdit);
+    highlighter = new BasicXMLSyntaxHighlighter(ui->textEdit);
     ui->openbtn->show();
     ui->save->hide();
     ui->Convertbtn->hide();
@@ -36,6 +37,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Compressbtn->hide();
     ui->Previousbtn->hide();
     ui->Nextbtn->hide();
+    ui->Correctionbtn->hide();
+    ui->textEdit_2->hide();
 
 }
 
@@ -58,78 +61,23 @@ void MainWindow::on_openbtn_clicked()
         n->setType(3);
         QTextStream out(&file);
         QString text = out.readAll();
-        stringManipulate(text.toStdString());
-//        if(text.size()<100000){
-            ui->textEdit->setText(text);
-//        }
-//        else{
-//            pagesNo = ceil(text.size()/100000);
-//            bigFile = text.toStdString();
-//            currentPage=0;
-//            pages.push_back(0);
-//            ui->Previousbtn->setDisabled(1);
-//            for(int i=100000;i<bigFile.size();i++){
-//                if(bigFile[i] == '>'){
-//                    pages.push_back(i+1);
-//                    i+=100000;
-//                }
-//            }
-//            string toDisplay = bigFile.substr (pages[currentPage], pages[currentPage+1]);
-//            ui->textEdit->setText(QString::fromStdString(toDisplay));
-//            ui->textEdit->setText(QString::fromStdString(bigFile));
-//        }
+        vector<Error> e = stringManipulate(text.toStdString());
+        Display(alert(e,text));
         ui->save->show();
         ui->SaveAsbtn->show();
-        ui->minifybtn->show();
-        ui->Prettifybtn->show();
-        ui->minifybtn->show();
-        ui->Prettifybtn->show();
-        ui->Compressbtn->show();
-//        ui->Previousbtn->show();
-//        ui->Nextbtn->show();
-    }
-}
-
-
-
-
-void MainWindow::on_actionOpen_triggered()
-{
-    openFile = QFileDialog::getOpenFileName(this,"Open a file","C://");
-    QFile file(openFile);
-    if(!file.open(QFile::ReadWrite | QFile::Text)){
-        QMessageBox::warning(this,"title","file not open");
-    }
-    else{
-        Node* n = new Node("XML");
-        currentNode = n;
-        tree.setRoot(n);
-        n->setType(3);
-        QTextStream out(&file);
-        QString text = out.readAll();
-        stringManipulate(text.toStdString());
-        ui->textEdit->setText(text);
-        ui->save->show();
-        ui->minifybtn->show();
-        ui->Prettifybtn->show();
+        if(e.size()>0){
+            ui->Correctionbtn->show();
+            ui->minifybtn->hide();
+            ui->Prettifybtn->hide();
+        }
+        else{
+            ui->minifybtn->show();
+            ui->Prettifybtn->show();
+            ui->Correctionbtn->hide();
+        }
         ui->Compressbtn->show();
     }
 }
-
-
-void MainWindow::on_actionSave_triggered()
-{
-    QFile file(openFile);
-    if(!file.open(QFile::WriteOnly | QFile::Text)){
-
-    }
-    QTextStream out(&file);
-    QString text = ui->textEdit->toPlainText();
-    out<<text;
-    file.flush();
-    file.close();
-}
-
 
 void MainWindow::on_save_clicked()
 {
@@ -144,23 +92,19 @@ void MainWindow::on_save_clicked()
     file.close();
 }
 
-
-
 void MainWindow::on_minifybtn_clicked()
 {
     QString str = QString::fromStdString(tree.minify());
-    ui->textEdit->setText(str);
+    Display(str);
     functionUsed = "/minifiedVersion.xml";
 }
-
 
 void MainWindow::on_Prettifybtn_clicked()
 {
     QString str = QString::fromStdString(tree.prettify());
-    ui->textEdit->setText(str);
+    Display(str);
     functionUsed = "/prettifiedVersion.xml";
 }
-
 
 void MainWindow::on_Compressbtn_clicked()
 {
@@ -188,7 +132,6 @@ void MainWindow::on_Compressbtn_clicked()
     f.close();
 }
 
-
 void MainWindow::on_Decompressbtn_clicked()
 {
     string fileToDecompress =QFileDialog::getOpenFileName(this,"Open file to decompress","C://").toStdString();
@@ -203,9 +146,8 @@ void MainWindow::on_Decompressbtn_clicked()
     out<<QString::fromStdString(str);
     f.flush();
     f.close();
-    ui->textEdit->setPlainText(QString::fromStdString(str));
+    Display(QString::fromStdString(str));
 }
-
 
 void MainWindow::on_SaveAsbtn_clicked()
 {
@@ -221,29 +163,154 @@ void MainWindow::on_SaveAsbtn_clicked()
         file.close();
 }
 
+void MainWindow::on_Nextbtn_clicked()
+{
+    currentPage++;
+    string toDisplay = bigFile.substr (pages[currentPage], pages[currentPage+1]-pages[currentPage]);
+    ui->textEdit->setText(QString::fromStdString(toDisplay));
+    ui->Previousbtn->setEnabled(1);
+    string text2str = to_string(currentPage)+" Out of "+to_string(pagesNo);
+    ui->textEdit_2->setText(QString::fromStdString(text2str));
+    if(currentPage == pagesNo){
+        ui->Nextbtn->setDisabled(1);
+    }
+}
+
+void MainWindow::on_Previousbtn_clicked()
+{
+    currentPage--;
+    string toDisplay = bigFile.substr (pages[currentPage], pages[currentPage+1]-pages[currentPage]);
+    ui->textEdit->setText(QString::fromStdString(toDisplay));
+    ui->Nextbtn->setEnabled(1);
+    string text2str = to_string(currentPage)+"Out of "+to_string(pagesNo);
+    ui->textEdit_2->setText(QString::fromStdString(text2str));
+    if(currentPage==0){
+        ui->Previousbtn->setDisabled(1);
+    }
+}
+
+void MainWindow::on_actionOpen_triggered()
+{
+    on_openbtn_clicked();
+}
 
 
-
-//void MainWindow::on_Nextbtn_clicked()
-//{
-//currentPage++;
-//string toDisplay = bigFile.substr (pages[currentPage], pages[currentPage+1]);
-//ui->textEdit->setText(QString::fromStdString(toDisplay));
-//ui->Previousbtn->setEnabled(1);
-//if(currentPage == pagesNo){
-//ui->Nextbtn->setDisabled(1);
-//}
-//}
+void MainWindow::on_actionSave_triggered()
+{
+    on_save_clicked();
+}
 
 
-//void MainWindow::on_Previousbtn_clicked()
-//{
-//currentPage--;
-//string toDisplay = bigFile.substr (pages[currentPage], pages[currentPage+1]);
-//ui->textEdit->setText(QString::fromStdString(toDisplay));
-//ui->Nextbtn->setEnabled(1);
-//if(currentPage==0){
-//ui->Previousbtn->setDisabled(1);
-//}
-//}
+void MainWindow::on_actionSave_As_triggered()
+{
+    on_SaveAsbtn_clicked();
+}
+
+
+void MainWindow::on_actionCompress_triggered()
+{
+    on_Compressbtn_clicked();
+}
+
+
+void MainWindow::on_actionDecompress_triggered()
+{
+    on_Decompressbtn_clicked();
+}
+
+void MainWindow::Display(QString str){
+    pages.clear();
+    if(str.size()<100000){
+        ui->textEdit->setText(str);
+        ui->Previousbtn->setDisabled(1);
+        ui->Nextbtn->setDisabled(1);
+    }
+    else{
+        ui->textEdit_2->show();
+        bigFile = str.toStdString();
+        currentPage=0;
+        pages.push_back(0);
+        ui->Previousbtn->setDisabled(1);
+        for(int i=100000;i<bigFile.size();i++){
+            if(i == bigFile.size()-1){
+                pages.push_back(bigFile.size());
+                break;
+            }
+            if(bigFile[i]=='>'){
+                pages.push_back(i+1);
+                if(i+100000<bigFile.size()){
+                    i+=100000;
+                }
+                else{
+                    pages.push_back(bigFile.size());
+                    break;
+                }
+            }
+        }
+        pagesNo = pages.size()-2;
+        string text2str = to_string(currentPage)+" Out of "+to_string(pagesNo);
+        ui->textEdit_2->setText(QString::fromStdString(text2str));
+        string toDisplay = bigFile.substr (pages[currentPage], pages[currentPage+1]-pages[currentPage]);
+        ui->textEdit->setText(QString::fromStdString(toDisplay));
+        ui->Previousbtn->show();
+        ui->Nextbtn->show();
+    }
+}
+
+QString MainWindow::alert(vector<Error> e,QString s){
+    qDebug()<<e.size();
+    int counter = 0;
+    int start = 0;
+    int end = 0;
+    string rtn="";
+    while(1){
+        if(e.size()==0){
+            return s;
+        }
+        if(counter>=e.size()-1){
+            if(e[e.size()-1].type==1){
+                end=e[e.size()-1].openPosition;
+                rtn+=s.toStdString().substr(start,end-start)+"!!";
+                rtn+=s.toStdString().substr(end,e.size()-end);
+                break;
+            }
+            else if(e[e.size()-1].type==2){
+                end=e[e.size()-1].openPosition;
+                rtn+=s.toStdString().substr(start,end-start)+"!!";
+                rtn+=s.toStdString().substr(end,e[e.size()-1].closePosition+2)+"!!";
+                rtn+=s.toStdString().substr(end+2,e.size()-end+2);
+                break;
+            }
+            else if(e[e.size()-1].type==3){
+                end = e[e.size()-1].closePosition;
+                rtn+=s.toStdString().substr(start,end-start+2)+"!!";
+                rtn+=s.toStdString().substr(end+2,e.size()-end+2);
+                break;
+            }
+        }
+        if(e[counter].type!=3){
+            end=e[counter].openPosition;
+            rtn += s.toStdString().substr(start,end-start)+"!!";
+            start = end;
+        }
+
+        if(e[counter].type==2 || e[counter].type==3){
+            end=e[counter].closePosition;
+            rtn += s.toStdString().substr(start,end-start+2)+"!!";
+            start = end+2;
+        }
+        counter++;
+    }
+    return QString::fromStdString(rtn);
+}
+
+void MainWindow::on_Correctionbtn_clicked()
+{
+    QString str = QString::fromStdString(tree.prettify());
+    Display(str);
+    functionUsed = "/CorrectVersion.xml";
+    ui->Correctionbtn->hide();
+    ui->Prettifybtn->show();
+    ui->minifybtn->show();
+}
 

@@ -6,6 +6,11 @@ Error closing(string s) {
     //cout << s << "   ";
     //cout << currentNode->getValue();
     //cout << endl;
+    if(currentNode->getType() == 3){
+        Error e;
+        e.type = 3;
+        return e;
+    }
     if (s == currentNode->getValue()) {
         currentNode = currentNode->getParent();
         Error e;
@@ -25,6 +30,7 @@ Error closing(string s) {
         Error e;
         e.openPosition = currentNode->getPosition();
         e.type = 2;
+        currentNode = currentNode->getParent();
         //cout << "CwrongERROR2" << endl;
         return e;
     }

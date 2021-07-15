@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>913</width>
-    <height>548</height>
+    <width>1133</width>
+    <height>782</height>
    </rect>
   </property>
   <property name="mouseTracking">
@@ -23,17 +23,45 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QPushButton" name="openbtn">
+         <widget class="QTextEdit" name="textEdit_2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="styleSheet">
-           <string notr="true">.openbtn {
+           <string notr="true">QTextEdit{
+max-width : 200px;
+max-height : 50px;
+}
+</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="openbtn">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
   background-color: #4CAF50; /* Green */
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 16px 32px;
   text-align: center;
   text-decoration: none;
-  display: inline-block;
   font-size: 16px;
+  margin: 4px 2px;
+}
+
+QPushButton {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+QPushButton:hover {
+  background-color: #4CAF50;
+  color: white;
 }</string>
           </property>
           <property name="text">
@@ -43,6 +71,29 @@
         </item>
         <item>
          <widget class="QPushButton" name="Decompressbtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+QPushButton {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+QPushButton:hover {
+  background-color: #4CAF50;
+  color: white;
+}</string>
+          </property>
           <property name="text">
            <string>Decompress</string>
           </property>
@@ -50,6 +101,29 @@
         </item>
         <item>
          <widget class="QPushButton" name="Compressbtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+QPushButton {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+QPushButton:hover {
+  background-color: #4CAF50;
+  color: white;
+}</string>
+          </property>
           <property name="text">
            <string>Compress</string>
           </property>
@@ -57,13 +131,89 @@
         </item>
         <item>
          <widget class="QPushButton" name="minifybtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+QPushButton {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+QPushButton:hover {
+  background-color: #4CAF50;
+  color: white;
+}</string>
+          </property>
           <property name="text">
            <string>Minify</string>
           </property>
          </widget>
         </item>
         <item>
+         <widget class="QPushButton" name="Correctionbtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+QPushButton {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+QPushButton:hover {
+  background-color: #4CAF50;
+  color: white;
+}</string>
+          </property>
+          <property name="text">
+           <string>Correction</string>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QPushButton" name="Prettifybtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+QPushButton {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+QPushButton:hover {
+  background-color: #4CAF50;
+  color: white;
+}</string>
+          </property>
           <property name="text">
            <string>Prettify</string>
           </property>
@@ -71,6 +221,29 @@
         </item>
         <item>
          <widget class="QPushButton" name="Convertbtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+QPushButton {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+QPushButton:hover {
+  background-color: #4CAF50;
+  color: white;
+}</string>
+          </property>
           <property name="text">
            <string>Convert to JSON</string>
           </property>
@@ -78,6 +251,29 @@
         </item>
         <item>
          <widget class="QPushButton" name="save">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+QPushButton {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+QPushButton:hover {
+  background-color: #4CAF50;
+  color: white;
+}</string>
+          </property>
           <property name="text">
            <string>Save</string>
           </property>
@@ -85,6 +281,29 @@
         </item>
         <item>
          <widget class="QPushButton" name="SaveAsbtn">
+          <property name="styleSheet">
+           <string notr="true">QPushButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+QPushButton {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+QPushButton:hover {
+  background-color: #4CAF50;
+  color: white;
+}</string>
+          </property>
           <property name="text">
            <string>Save As</string>
           </property>
@@ -108,27 +327,76 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
+         <widget class="QTextEdit" name="textEdit">
+          <property name="styleSheet">
+           <string notr="true">QTextBrowser{
+font-family: &quot;Times New Roman&quot;, Times, serif;
+font-size: 25px;
+}</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QTextEdit" name="textEdit"/>
+           <widget class="QPushButton" name="Previousbtn">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+QPushButton {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+QPushButton:hover {
+  background-color: #4CAF50;
+  color: white;
+}</string>
+            </property>
+            <property name="text">
+             <string>Previous</string>
+            </property>
+           </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <item>
-             <widget class="QPushButton" name="Previousbtn">
-              <property name="text">
-               <string>Previous</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="Nextbtn">
-              <property name="text">
-               <string>Next</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <widget class="QPushButton" name="Nextbtn">
+            <property name="styleSheet">
+             <string notr="true">QPushButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+}
+
+QPushButton {
+  background-color: white; 
+  color: black; 
+  border: 2px solid #4CAF50;
+}
+
+QPushButton:hover {
+  background-color: #4CAF50;
+  color: white;
+}</string>
+            </property>
+            <property name="text">
+             <string>Next</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -143,7 +411,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>913</width>
+     <width>1133</width>
      <height>26</height>
     </rect>
    </property>
@@ -157,7 +425,9 @@
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
     <addaction name="actionConvert_to_JSON"/>
+    <addaction name="separator"/>
     <addaction name="actionCompress"/>
+    <addaction name="actionDecompress"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -190,6 +460,11 @@
   <action name="actionCompress">
    <property name="text">
     <string>Compress</string>
+   </property>
+  </action>
+  <action name="actionDecompress">
+   <property name="text">
+    <string>Decompress</string>
    </property>
   </action>
  </widget>
